@@ -15,7 +15,15 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private OlympDbContext _dbContext;
 
     public ObservableCollection<string> Countries => new(_dbContext.Participants.Select(x => x.Country).Distinct().ToList());
-    //public ObservableCollection<string> Olympiads => new(_dbContext.Olympiads.Select(x => ).Distinct().ToList());
+    public ObservableCollection<string> Olympiads
+    {
+        get
+        {
+            var result = new ObservableCollection<string>(_dbContext.Olympiads.Select(x => x.Name).Distinct().ToList());
+            result.Add("Все олимпиады"); // TODO: можно через ресурсы сюда локализацию подключить
+            return result;
+        }
+    }
 
     public Command ShowMedalTable { get; }
     public Command ShowMedalists { get; }
