@@ -1,3 +1,4 @@
 dotnet ef dbcontext scaffold "Host=localhost;Port=5432;Username=postgres;Password=qwerty;Database=Olymp;" Npgsql.EntityFrameworkCore.PostgreSQL
 
 dotnet ef migrations add InitialCreate --project ..\OlympiadWpfApp.Migrations.csproj
+dotnet ef migrations script --idempotent --output DatabasesScripts/OlympDb.sql --project ..\OlympiadWpfApp.Migrations.csproj

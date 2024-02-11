@@ -14,6 +14,7 @@ public partial class ParticipantEntity
 
     public bool IsDeleted { get; set; }
     public byte[] Photo { get; set; } = null!;
+    public string Country { get; set; } = null!;
 
     public virtual OlympiadParticipantEntity? OlympiadParticipant { get; set; }
 
