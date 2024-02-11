@@ -45,8 +45,8 @@
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Выберите страну:"/>
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Выберите олимпиаду:"/>
-            <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding }"/>
-            <ComboBox Grid.Row="1" Grid.Column="1"/>
+            <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Countries}"/>
+            <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Olympiads}"/>
         </Grid>
         <WrapPanel Grid.Row="2" HorizontalAlignment="Center" Margin="5">
             <Button Content="Посмотреть таблицу медального зачета" Command="{Binding ShowMedalTable}"/>

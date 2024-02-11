@@ -4,7 +4,7 @@ using OlympiadWpfApp.DataAccess.Entities;
 
 namespace OlympiadWpfApp.DataAccess.Configurations;
 
-public class OlympiadcParticipantConfiguration : IEntityTypeConfiguration<OlympiadParticipantEntity>
+public class OlympiadParticipantConfiguration : IEntityTypeConfiguration<OlympiadParticipantEntity>
 {
     public void Configure(EntityTypeBuilder<OlympiadParticipantEntity> builder)
     {

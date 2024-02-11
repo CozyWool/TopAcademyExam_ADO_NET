@@ -36,6 +36,6 @@ public partial class OlympDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfigurationsFromAssembly(typeof(OlympiadcConfiguration).Assembly);
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(OlympiadConfiguration).Assembly);
     }
 }

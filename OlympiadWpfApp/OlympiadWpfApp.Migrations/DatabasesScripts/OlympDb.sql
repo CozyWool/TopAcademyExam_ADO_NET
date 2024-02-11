@@ -157,3 +157,22 @@ BEGIN
 END $EF$;
 COMMIT;
 
+START TRANSACTION;
+
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20240211120409_AddOlympiadNameField') THEN
+    ALTER TABLE "Olympiad" ADD name character varying(100) NOT NULL DEFAULT '';
+    END IF;
+END $EF$;
+
+DO $EF$
+BEGIN
+    IF NOT EXISTS(SELECT 1 FROM "__EFMigrationsHistory" WHERE "MigrationId" = '20240211120409_AddOlympiadNameField') THEN
+    INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+    VALUES ('20240211120409_AddOlympiadNameField', '8.0.1');
+    END IF;
+END $EF$;
+COMMIT;
+

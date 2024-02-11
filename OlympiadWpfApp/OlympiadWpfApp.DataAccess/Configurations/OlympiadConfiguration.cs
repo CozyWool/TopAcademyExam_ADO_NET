@@ -4,7 +4,7 @@ using OlympiadWpfApp.DataAccess.Entities;
 
 namespace OlympiadWpfApp.DataAccess.Configurations;
 
-public class OlympiadcConfiguration : IEntityTypeConfiguration<OlympiadEntity>
+public class OlympiadConfiguration : IEntityTypeConfiguration<OlympiadEntity>
 {
     public void Configure(EntityTypeBuilder<OlympiadEntity> builder)
     {
@@ -13,6 +13,9 @@ public class OlympiadcConfiguration : IEntityTypeConfiguration<OlympiadEntity>
         builder.ToTable("Olympiad");
 
         builder.Property(e => e.Id).HasColumnName("id");
+        builder.Property(e => e.Name)
+            .HasMaxLength(100)
+            .HasColumnName("name");
         builder.Property(e => e.City)
             .HasMaxLength(100)
             .HasColumnName("city");

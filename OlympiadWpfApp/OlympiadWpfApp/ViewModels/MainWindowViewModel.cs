@@ -14,10 +14,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     private OlympDbContext _dbContext;
 
-    // public ObservableCollection<string> Countries
-    // {
-    //     get => _dbContext.;
-    // }
+    public ObservableCollection<string> Countries => new(_dbContext.Participants.Select(x => x.Country).Distinct().ToList());
+    //public ObservableCollection<string> Olympiads => new(_dbContext.Olympiads.Select(x => ).Distinct().ToList());
 
     public Command ShowMedalTable { get; }
     public Command ShowMedalists { get; }
