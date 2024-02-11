@@ -26,5 +26,6 @@ public class ParticipantConfiguration : IEntityTypeConfiguration<ParticipantEnti
         builder.Property(e => e.Surname)
             .HasMaxLength(100)
             .HasColumnName("surname");
+        builder.Property(e => e.Photo).HasColumnName("photo");
     }
 }

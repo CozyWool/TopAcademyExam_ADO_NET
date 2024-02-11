@@ -1,8 +1,7 @@
-﻿<Application x:Class="OlympiadWpfApp.App"
+﻿<Application x:Class="OlympiadWpfApp.Views.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:OlympiadWpfApp"
-             StartupUri="MainWindow.xaml">
+             xmlns:local="clr-namespace:OlympiadWpfApp">
     <Application.Resources>
          
     </Application.Resources>

@@ -1,0 +1,61 @@
+﻿<Window x:Class="OlympiadWpfApp.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:OlympiadWpfApp"
+        xmlns:viewmodels="clr-namespace:OlympiadWpfApp.ViewModels"
+        mc:Ignorable="d"
+        Title="Олимпиада" Height="450" Width="800" d:DataContext="{d:DesignInstance viewmodels:MainWindowViewModel }">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Width" Value="350" />
+            <Setter Property="Height" Value="25" />
+            <Setter Property="Margin" Value="2.5" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="5" />
+        </Style>
+        <Style TargetType="ComboBox">
+            <Setter Property="Margin" Value="5" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Олимпиада" TextAlignment="Center" FontFamily="Times New Roman" FontWeight="Bold"
+                   FontSize="24" />
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Выберите страну:"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Выберите олимпиаду:"/>
+            <ComboBox Grid.Row="0" Grid.Column="1"/>
+            <ComboBox Grid.Row="1" Grid.Column="1"/>
+        </Grid>
+        <WrapPanel Grid.Row="2" HorizontalAlignment="Center" Margin="5">
+            <Button Content="Посмотреть таблицу медального зачета" Command="{Binding ShowMedalTable}"/>
+            <Button Content="Посмотреть медалистов" Command="{Binding ShowMedalists}"/>
+            <Button Content="Посмотреть страну с наиб. кол-вом золотых медалей" Command="{Binding ShowMostGoldMedalsCountry}"/>
+            <Button Content="Посмотреть лучшего спортсмена в виде спорта" Command="{Binding ShowMostGoldMedalsParticipant}"/>
+            <Button Content="Посмотреть страну хозяйку с наиб. кол-вом олимпиад" Command="{Binding ShowMostHostCountry}"/>
+            <Button Content="Состав олимпиадной команды" Command="{Binding ShowCountryTeam}"/>
+            <Button Content="Статистика выступления страны" Command="{Binding ShowCountryStats}"/>
+        </WrapPanel>
+    </Grid>
+</Window>
