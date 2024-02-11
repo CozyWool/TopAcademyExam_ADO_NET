@@ -8,16 +8,12 @@ public class OlympiadParticipantConfiguration : IEntityTypeConfiguration<Olympia
 {
     public void Configure(EntityTypeBuilder<OlympiadParticipantEntity> builder)
     {
-        builder.HasKey(e => e.ParticipantId).HasName("Olympiad_Participant_pkey");
+        builder.HasKey(e => e.Id).HasName("Olympiad_Participant_pkey");
 
         builder.ToTable("Olympiad_Participant");
 
-        builder.Property(e => e.ParticipantId)
-            .ValueGeneratedNever()
-            .HasColumnName("participant_id");
-        builder.Property(e => e.Id)
-            .ValueGeneratedOnAdd()
-            .HasColumnName("id");
+        builder.Property(e => e.Id).HasColumnName("id");
+        builder.Property(e => e.ParticipantId).HasColumnName("participant_id");
         builder.Property(e => e.OlympiadId).HasColumnName("olympiad_id");
 
         builder.HasOne(d => d.OlympiadEntity).WithMany(p => p.OlympiadParticipants)

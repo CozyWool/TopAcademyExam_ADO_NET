@@ -29,8 +29,6 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Text="Олимпиада" TextAlignment="Center" FontFamily="Times New Roman" FontWeight="Bold"
                    FontSize="24" />
@@ -45,8 +43,8 @@
             </Grid.ColumnDefinitions>
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Выберите страну:"/>
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Выберите олимпиаду:"/>
-            <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Countries}"/>
-            <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Olympiads}"/>
+            <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Countries}" SelectedItem="{Binding SelectedCountry}"/>
+            <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Olympiads}" SelectedItem="{Binding SelectedOlympiad}"/>
         </Grid>
         <WrapPanel Grid.Row="2" HorizontalAlignment="Center" Margin="5">
             <Button Content="Посмотреть таблицу медального зачета" Command="{Binding ShowMedalTable}"/>
@@ -57,5 +55,6 @@
             <Button Content="Состав олимпиадной команды" Command="{Binding ShowCountryTeam}"/>
             <Button Content="Статистика выступления страны" Command="{Binding ShowCountryStats}"/>
         </WrapPanel>
+        <DataGrid Grid.Row="3" Margin="10" ItemsSource="{Binding QueryResult}"/>
     </Grid>
 </Window>
