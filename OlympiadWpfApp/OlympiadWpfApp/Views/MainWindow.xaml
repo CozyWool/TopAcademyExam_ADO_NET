@@ -3,10 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:OlympiadWpfApp"
         xmlns:viewmodels="clr-namespace:OlympiadWpfApp.ViewModels"
         mc:Ignorable="d"
-        Title="Олимпиада" Height="450" Width="800" d:DataContext="{d:DesignInstance viewmodels:MainWindowViewModel }">
+        Title="Олимпиада" Height="450" Width="800" d:DataContext="{d:DesignInstance viewmodels:MainWindowViewModel }"
+        SizeToContent="Height"
+        Language="ru">
     <Window.Resources>
         <Style TargetType="Button">
             <Setter Property="Width" Value="350" />
@@ -36,25 +37,34 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.Column="0" Text="Выберите страну:"/>
-            <TextBlock Grid.Row="1" Grid.Column="0" Text="Выберите олимпиаду:"/>
-            <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Countries}" SelectedItem="{Binding SelectedCountry}"/>
-            <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Olympiads}" SelectedItem="{Binding SelectedOlympiad}"/>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Выберите страну:" />
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Выберите олимпиаду:" />
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="Выберите вид спорта:" />
+            <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Countries}"
+                      SelectedItem="{Binding SelectedCountry}" />
+            <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Olympiads}"
+                      SelectedItem="{Binding SelectedOlympiad}" />
+            <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding SportTypes}"
+                      SelectedItem="{Binding  SelectedSportType }" />
         </Grid>
         <WrapPanel Grid.Row="2" HorizontalAlignment="Center" Margin="5">
-            <Button Content="Посмотреть таблицу медального зачета" Command="{Binding ShowMedalTable}"/>
-            <Button Content="Посмотреть медалистов" Command="{Binding ShowMedalists}"/>
-            <Button Content="Посмотреть страну с наиб. кол-вом золотых медалей" Command="{Binding ShowMostGoldMedalsCountry}"/>
-            <Button Content="Посмотреть лучшего спортсмена в виде спорта" Command="{Binding ShowMostGoldMedalsParticipant}"/>
-            <Button Content="Посмотреть страну хозяйку с наиб. кол-вом олимпиад" Command="{Binding ShowMostHostCountry}"/>
-            <Button Content="Состав олимпиадной команды" Command="{Binding ShowCountryTeam}"/>
-            <Button Content="Статистика выступления страны" Command="{Binding ShowCountryStats}"/>
+            <Button Content="Посмотреть таблицу медального зачета" Command="{Binding ShowMedalTable}" />
+            <Button Content="Посмотреть медалистов" Command="{Binding ShowMedalists}" />
+            <Button Content="Посмотреть страну с наиб. кол-вом золотых медалей"
+                    Command="{Binding ShowMostGoldMedalsCountry}" />
+            <Button Content="Посмотреть лучшего спортсмена в виде спорта"
+                    Command="{Binding ShowMostGoldMedalsParticipant}" />
+            <Button Content="Посмотреть страну хозяйку с наиб. кол-вом олимпиад"
+                    Command="{Binding ShowMostHostCountry}" />
+            <Button Content="Состав олимпиадной команды" Command="{Binding ShowCountryTeam}" />
+            <Button Content="Статистика выступления страны" Command="{Binding ShowCountryStats}" />
         </WrapPanel>
-        <DataGrid Grid.Row="3" Margin="10" ItemsSource="{Binding QueryResult}"/>
+        <DataGrid Grid.Row="3" Margin="10" ItemsSource="{Binding QueryResult}" IsReadOnly="True" />
     </Grid>
 </Window>
