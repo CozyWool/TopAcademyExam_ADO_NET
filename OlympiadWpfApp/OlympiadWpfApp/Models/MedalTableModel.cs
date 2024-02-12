@@ -2,9 +2,9 @@
 
 public class MedalTableModel
 {
-    public string Country { get; set; }
-    public int GoldMedals { get; set; }
-    public int SilverMedals { get; set; }
-    public int BronzeMedals { get; set; }
+    public string Country { get; init; } = null!;
+    public int GoldMedals { get; init; }
+    public int SilverMedals { get; init; }
+    public int BronzeMedals { get; init; }
     public int TotalMedals => GoldMedals + SilverMedals + BronzeMedals;
 }
