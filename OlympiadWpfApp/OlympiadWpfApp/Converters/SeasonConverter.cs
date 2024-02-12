@@ -8,7 +8,6 @@ public class SeasonConverter : IValueConverter
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         if (value is bool b)
-        {
             switch (CultureInfo.CurrentUICulture.Name)
             {
                 case "ru-RU":
@@ -16,7 +15,6 @@ public class SeasonConverter : IValueConverter
                 case "en-GB": // локализацию не сделал, а тут кейс сделал, мда (T_T)
                     return b ? "Winter" : "Summer";
             }
-        }
 
         throw new ArgumentException("Wrong data type");
     }
@@ -24,7 +22,6 @@ public class SeasonConverter : IValueConverter
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
         if (value is string s)
-        {
             switch (CultureInfo.CurrentUICulture.Name)
             {
                 case "ru-RU":
@@ -32,7 +29,6 @@ public class SeasonConverter : IValueConverter
                 case "en-GB": // локализацию не сделал, а тут кейс сделал, мда (T_T)
                     return s == "Winter";
             }
-        }
 
         throw new ArgumentException("Wrong data type");
     }

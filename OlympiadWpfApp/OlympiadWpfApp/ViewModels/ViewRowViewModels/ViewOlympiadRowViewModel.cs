@@ -6,13 +6,8 @@ namespace OlympiadWpfApp.ViewModels.ViewRowViewModels;
 
 public class ViewOlympiadRowViewModel
 {
-    private readonly Window _owner;
     private readonly OlympiadEntity _originalEntity; // на случай, если нужно откатить изменения(нажата кнопка Отмена)
-
-    private bool CanExecuteOk => Entity.Name.Length > 0 &&
-                                 Entity.Year > DateOnly.Parse("01.01.1900") &&
-                                 Entity.City.Length > 0 &&
-                                 Entity.HostCountry.Length > 0;
+    private readonly Window _owner;
 
     public ViewOlympiadRowViewModel(Window owner, OlympiadEntity entityToEdit)
     {
@@ -23,7 +18,12 @@ public class ViewOlympiadRowViewModel
         Entity = entityToEdit;
         _originalEntity = Entity.Clone() as OlympiadEntity ?? throw new InvalidOperationException();
     }
-    
+
+    private bool CanExecuteOk => Entity.Name.Length > 0 &&
+                                 Entity.Year > DateOnly.Parse("01.01.1900") &&
+                                 Entity.City.Length > 0 &&
+                                 Entity.HostCountry.Length > 0;
+
     public OlympiadEntity Entity { get; }
     public Command OkCommand { get; set; }
     public Command CancelCommand { get; set; }

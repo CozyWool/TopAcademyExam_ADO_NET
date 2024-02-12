@@ -25,7 +25,8 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" ItemsSource="{Binding Entities, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedIndex}" Margin="10"
+        <DataGrid Grid.Row="0" ItemsSource="{Binding Entities, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedIndex="{Binding SelectedIndex}" Margin="10"
                   IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Id" Width="Auto">
@@ -35,7 +36,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
+
                 <DataGridTemplateColumn Header="Название" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="entities:OlympiadEntity">
@@ -43,7 +44,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
+
                 <DataGridTemplateColumn Header="Дата проведения" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="entities:OlympiadEntity">
@@ -51,7 +52,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
+
                 <DataGridTemplateColumn Header="Страна-хозяйка" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="entities:OlympiadEntity">
@@ -59,7 +60,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
+
                 <DataGridTemplateColumn Header="Город" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="entities:OlympiadEntity">
@@ -67,7 +68,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
+
                 <DataGridTemplateColumn Header="Сезон олимпиады" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="entities:OlympiadEntity">

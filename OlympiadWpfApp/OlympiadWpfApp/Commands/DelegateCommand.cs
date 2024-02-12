@@ -3,8 +3,8 @@
 public sealed class DelegateCommand : Command
 {
     private static readonly Func<object, bool> DefaultCanExecute = _ => true;
-    private readonly Action<object> _executeAction;
     private readonly Func<object, bool> _canExecuteFunc;
+    private readonly Action<object> _executeAction;
 
     public DelegateCommand(Action<object> executeAction) : this(executeAction, DefaultCanExecute)
     {

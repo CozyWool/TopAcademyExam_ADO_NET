@@ -54,7 +54,7 @@
                   DisplayDate="{Binding Entity.Birthdate, Converter={StaticResource DateConverter}}"
                   HorizontalAlignment="Left" />
         <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Entity.Country}" />
-        
+
         <StackPanel Grid.Row="5" Grid.ColumnSpan="2" Grid.Column="0" Orientation="Horizontal"
                     HorizontalAlignment="Right">
             <Button Content="ОК" Command="{Binding OkCommand}" />

@@ -6,8 +6,8 @@ namespace OlympiadWpfApp.ViewModels.ViewRowViewModels;
 
 public class ViewSportTypeRowViewModel
 {
-    private readonly Window _owner;
     private readonly SportTypeEntity _originalEntity; // на случай, если нужно откатить изменения(нажата кнопка Отмена)
+    private readonly Window _owner;
 
     //private bool CanExecuteOk => Entity.Name.Length > 0; // т.к всего одно поле, то оно тут не работает
 
@@ -32,6 +32,7 @@ public class ViewSportTypeRowViewModel
             MessageBox.Show("Введите все данные!", "Внимание!", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
+
         _owner.DialogResult = true;
         _owner.Close();
     }

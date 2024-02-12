@@ -5,7 +5,6 @@ using System.Windows;
 using OlympiadWpfApp.DataAccess.Contexts;
 using OlympiadWpfApp.DataAccess.Entities;
 using OlympiadWpfApp.ViewModels.ViewRowViewModels;
-using OlympiadWpfApp.Views;
 using OlympiadWpfApp.Views.ViewRowViews;
 
 namespace OlympiadWpfApp.ViewModels.ShowTableViewModels;
@@ -13,7 +12,6 @@ namespace OlympiadWpfApp.ViewModels.ShowTableViewModels;
 public sealed class ShowOlympiadTableViewModel : ShowTableViewModel, INotifyPropertyChanged
 {
     private readonly OlympDbContext _olympDbContext;
-    public ObservableCollection<OlympiadEntity> Entities { get; private set; } = null!;
 
     public ShowOlympiadTableViewModel(Window owner, OlympDbContext olympDbContext) : base(owner)
     {
@@ -21,10 +19,16 @@ public sealed class ShowOlympiadTableViewModel : ShowTableViewModel, INotifyProp
         GetData();
     }
 
+    public ObservableCollection<OlympiadEntity> Entities { get; private set; } = null!;
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
     protected override void ExecuteEdit()
     {
         var index = SelectedIndex;
-        var selectedEntity = Entities[index]; // пытался сделать клон сущности(чтобы в случае отмена откатить изменния), но получал ошибку с отслеживанием изменений, выкрутился костылями
+        var
+            selectedEntity =
+                Entities[index]; // пытался сделать клон сущности(чтобы в случае отмена откатить изменния), но получал ошибку с отслеживанием изменений, выкрутился костылями
 
         var window = new ViewOlympiadRowView(Owner);
         var viewModel = new ViewOlympiadRowViewModel(window, selectedEntity);
@@ -49,7 +53,7 @@ public sealed class ShowOlympiadTableViewModel : ShowTableViewModel, INotifyProp
             HostCountry = "",
             City = "",
             IsWinter = false,
-            IsDeleted = false,
+            IsDeleted = false
         };
 
         var viewModel = new ViewOlympiadRowViewModel(window, olympiadEntity);
@@ -73,8 +77,6 @@ public sealed class ShowOlympiadTableViewModel : ShowTableViewModel, INotifyProp
             .OrderBy(x => x.Id)
             .ToList());
     }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
 
     private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {

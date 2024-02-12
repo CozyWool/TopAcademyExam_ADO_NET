@@ -5,15 +5,13 @@ using System.Windows;
 using OlympiadWpfApp.DataAccess.Contexts;
 using OlympiadWpfApp.DataAccess.Entities;
 using OlympiadWpfApp.ViewModels.ViewRowViewModels;
-using OlympiadWpfApp.Views;
 using OlympiadWpfApp.Views.ViewRowViews;
 
 namespace OlympiadWpfApp.ViewModels.ShowTableViewModels;
 
 public sealed class ShowSportTypeTableViewModel : ShowTableViewModel
 {
-     private readonly OlympDbContext _olympDbContext;
-    public ObservableCollection<SportTypeEntity> Entities { get; private set; } = null!;
+    private readonly OlympDbContext _olympDbContext;
 
     public ShowSportTypeTableViewModel(Window owner, OlympDbContext olympDbContext) : base(owner)
     {
@@ -21,10 +19,14 @@ public sealed class ShowSportTypeTableViewModel : ShowTableViewModel
         GetData();
     }
 
+    public ObservableCollection<SportTypeEntity> Entities { get; private set; } = null!;
+
     protected override void ExecuteEdit()
     {
         var index = SelectedIndex;
-        var selectedEntity = Entities[index]; // пытался сделать клон сущности(чтобы в случае отмена откатить изменния), но получал ошибку с отслеживанием изменений, выкрутился костылями
+        var
+            selectedEntity =
+                Entities[index]; // пытался сделать клон сущности(чтобы в случае отмена откатить изменния), но получал ошибку с отслеживанием изменений, выкрутился костылями
 
         var window = new ViewSportTypeRowView(Owner);
         var viewModel = new ViewSportTypeRowViewModel(window, selectedEntity);
@@ -40,10 +42,10 @@ public sealed class ShowSportTypeTableViewModel : ShowTableViewModel
 
     protected override void ExecuteAdd()
     {
-        var sportTypeEntity = new SportTypeEntity()
+        var sportTypeEntity = new SportTypeEntity
         {
             Id = _olympDbContext.SportTypes.Any() ? _olympDbContext.SportTypes.OrderBy(x => x.Id).Last().Id + 1 : 1,
-            Name = "",
+            Name = ""
         };
 
         var window = new ViewSportTypeRowView(Owner);

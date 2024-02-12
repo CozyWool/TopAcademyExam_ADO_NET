@@ -10,22 +10,52 @@ using OlympiadWpfApp.DataAccess.Contexts;
 using OlympiadWpfApp.Extensions;
 using OlympiadWpfApp.Models;
 using OlympiadWpfApp.ViewModels.ShowTableViewModels;
-using OlympiadWpfApp.Views;
 using OlympiadWpfApp.Views.ShowTableView;
 
 namespace OlympiadWpfApp.ViewModels;
 
 public class MainWindowViewModel : INotifyPropertyChanged
 {
-    private Window _owner;
     private readonly string _allOlympiadsString;
 
     private readonly OlympDbContext _dbContext;
+    private ObservableCollection<string> _countries = null!;
+    private ObservableCollection<string> _olympiads = null!;
+    private readonly Window _owner;
     private DataView _queryResult = null!;
 
     private ObservableCollection<string> _sportTypes = null!;
-    private ObservableCollection<string> _olympiads = null!;
-    private ObservableCollection<string> _countries = null!;
+
+
+    public MainWindowViewModel(Window owner)
+    {
+        _owner = owner;
+        _allOlympiadsString = "Все олимпиады"; // TODO: можно через ресурсы сюда локализацию подключить
+
+        var configuration = BuildConfiguration();
+        _dbContext = new OlympDbContext(configuration);
+
+        SportTypes = new ObservableCollection<string>(_dbContext.SportTypes.Select(x => x.Name).Distinct().ToList());
+        Olympiads = new ObservableCollection<string>(_dbContext.Olympiads.Where(x => !x.IsDeleted)
+            .Select(x => x.Name).Distinct().ToList()) {_allOlympiadsString};
+        Countries = new ObservableCollection<string>(_dbContext.Participants.Where(x => !x.IsDeleted)
+            .Select(x => x.Country).Distinct()
+            .ToList());
+
+        ShowMedalTable = new DelegateCommand(_ => ExecuteShowMedalTable(), _ => NeedSelectedOlympiad());
+        ShowMedalists = new DelegateCommand(_ => ExecuteShowMedalists(), _ => NeedSelectedOlympiad());
+        ShowMostGoldMedalsCountry =
+            new DelegateCommand(_ => ExecuteShowMostGoldMedalsCountry(), _ => NeedSelectedOlympiad());
+        ShowMostHostCountry = new DelegateCommand(_ => ExecuteShowMostHostCountry());
+        ShowMostGoldMedalsParticipant =
+            new DelegateCommand(_ => ExecuteShowMostGoldMedalsParticipant(), _ => NeedSelectedSportType());
+        ShowCountryTeam = new DelegateCommand(_ => ExecuteShowCountryTeam(), _ => NeedSelectedCountry());
+        ShowCountryStats = new DelegateCommand(_ => ExecuteShowCountryStats(),
+            _ => NeedSelectedCountry() && NeedSelectedOlympiad());
+        ShowOlympiadTable = new DelegateCommand(_ => ExecuteShowOlympiadTable());
+        ShowSportTypeTable = new DelegateCommand(_ => ExecuteShowSportTypeTable());
+        ShowParticipantTable = new DelegateCommand(_ => ExecuteShowParticipantTable());
+    }
 
     public ObservableCollection<string> Countries
     {
@@ -83,35 +113,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public Command ShowSportTypeTable { get; }
     public Command ShowParticipantTable { get; }
 
-
-    public MainWindowViewModel(Window owner)
-    {
-        _owner = owner;
-        _allOlympiadsString = "Все олимпиады"; // TODO: можно через ресурсы сюда локализацию подключить
-
-        var configuration = BuildConfiguration();
-        _dbContext = new OlympDbContext(configuration);
-
-        SportTypes = new ObservableCollection<string>(_dbContext.SportTypes.Select(x => x.Name).Distinct().ToList());
-        Olympiads = new ObservableCollection<string>(_dbContext.Olympiads.Where(x => !x.IsDeleted)
-            .Select(x => x.Name).Distinct().ToList()) {_allOlympiadsString};
-        Countries = new ObservableCollection<string>(_dbContext.Participants.Where(x => !x.IsDeleted).Select(x => x.Country).Distinct()
-            .ToList());
-
-        ShowMedalTable = new DelegateCommand(_ => ExecuteShowMedalTable(), _ => NeedSelectedOlympiad());
-        ShowMedalists = new DelegateCommand(_ => ExecuteShowMedalists(), _ => NeedSelectedOlympiad());
-        ShowMostGoldMedalsCountry =
-            new DelegateCommand(_ => ExecuteShowMostGoldMedalsCountry(), _ => NeedSelectedOlympiad());
-        ShowMostHostCountry = new DelegateCommand(_ => ExecuteShowMostHostCountry());
-        ShowMostGoldMedalsParticipant =
-            new DelegateCommand(_ => ExecuteShowMostGoldMedalsParticipant(), _ => NeedSelectedSportType());
-        ShowCountryTeam = new DelegateCommand(_ => ExecuteShowCountryTeam(), _ => NeedSelectedCountry());
-        ShowCountryStats = new DelegateCommand(_ => ExecuteShowCountryStats(),
-            _ => NeedSelectedCountry() && NeedSelectedOlympiad());
-        ShowOlympiadTable = new DelegateCommand(_ => ExecuteShowOlympiadTable());
-        ShowSportTypeTable = new DelegateCommand(_ => ExecuteShowSportTypeTable());
-        ShowParticipantTable = new DelegateCommand(_ => ExecuteShowParticipantTable());
-    }
+    public event PropertyChangedEventHandler? PropertyChanged;
 
 
     private bool NeedSelectedCountry()
@@ -253,7 +255,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     private void ExecuteShowMostGoldMedalsParticipant()
     {
-        QueryResult = _dbContext.Participants.Where(x => !x.IsDeleted).Join(_dbContext.SportTypeParticipants, p => p.Id, sp => sp.ParticipantId,
+        QueryResult = _dbContext.Participants.Where(x => !x.IsDeleted).Join(_dbContext.SportTypeParticipants, p => p.Id,
+                sp => sp.ParticipantId,
                 (p, sp) => new
                 {
                     p.Country,
@@ -382,7 +385,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
         if (window.ShowDialog() == true)
         {
             _dbContext.SaveChanges();
-            Countries = new ObservableCollection<string>(_dbContext.Participants.Where(x => !x.IsDeleted).Select(x => x.Country).Distinct()
+            Countries = new ObservableCollection<string>(_dbContext.Participants.Where(x => !x.IsDeleted)
+                .Select(x => x.Country).Distinct()
                 .ToList());
         }
         else
@@ -398,8 +402,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
             .AddJsonFile("appsettings.json")
             .Build();
     }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {

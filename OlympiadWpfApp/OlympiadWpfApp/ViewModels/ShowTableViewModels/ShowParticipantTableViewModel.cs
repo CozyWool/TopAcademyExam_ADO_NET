@@ -5,7 +5,6 @@ using System.Windows;
 using OlympiadWpfApp.DataAccess.Contexts;
 using OlympiadWpfApp.DataAccess.Entities;
 using OlympiadWpfApp.ViewModels.ViewRowViewModels;
-using OlympiadWpfApp.Views;
 using OlympiadWpfApp.Views.ViewRowViews;
 
 namespace OlympiadWpfApp.ViewModels.ShowTableViewModels;
@@ -13,13 +12,14 @@ namespace OlympiadWpfApp.ViewModels.ShowTableViewModels;
 public sealed class ShowParticipantTableViewModel : ShowTableViewModel
 {
     private readonly OlympDbContext _olympDbContext;
-    public ObservableCollection<ParticipantEntity> Entities { get; private set; } = null!;
 
     public ShowParticipantTableViewModel(Window owner, OlympDbContext olympDbContext) : base(owner)
     {
         _olympDbContext = olympDbContext;
         GetData();
     }
+
+    public ObservableCollection<ParticipantEntity> Entities { get; private set; } = null!;
 
     protected override void ExecuteEdit()
     {
@@ -51,7 +51,7 @@ public sealed class ShowParticipantTableViewModel : ShowTableViewModel
             Birthdate = DateOnly.Parse("01.01.1900"),
             IsDeleted = false,
             Photo = new byte[] { },
-            Country = "",
+            Country = ""
         };
 
         var window = new ViewParticipantRowView(Owner);

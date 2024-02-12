@@ -4,10 +4,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:entities="clr-namespace:OlympiadWpfApp.DataAccess.Entities;assembly=OlympiadWpfApp.DataAccess"
-        xmlns:converters="clr-namespace:OlympiadWpfApp.Converters"
         xmlns:showTableViewModels="clr-namespace:OlympiadWpfApp.ViewModels.ShowTableViewModels"
         mc:Ignorable="d"
-        Title="Таблица олимпиад" Height="450" Width="600"
+        Title="Таблица спортсменов" Height="450" Width="600"
         d:DataContext="{d:DesignInstance showTableViewModels:ShowParticipantTableViewModel}"
         WindowStartupLocation="CenterOwner"
         Language="ru-RU">
@@ -17,7 +16,6 @@
             <Setter Property="Height" Value="25" />
             <Setter Property="Margin" Value="2.5" />
         </Style>
-        <converters:SeasonConverter x:Key="SeasonConverter" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -44,7 +42,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
+
                 <DataGridTemplateColumn Header="Имя" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="entities:ParticipantEntity">
@@ -52,7 +50,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
+
                 <DataGridTemplateColumn Header="Отчество" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="entities:ParticipantEntity">

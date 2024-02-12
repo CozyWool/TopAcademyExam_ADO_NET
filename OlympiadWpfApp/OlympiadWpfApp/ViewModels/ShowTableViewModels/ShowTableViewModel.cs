@@ -5,14 +5,7 @@ namespace OlympiadWpfApp.ViewModels.ShowTableViewModels;
 
 public abstract class ShowTableViewModel
 {
-    private bool IsItemSelected => SelectedIndex != -1;
     protected readonly Window Owner;
-    public Command OkCommand { get; }
-    public Command CancelCommand { get; }
-    public Command AddCommand { get; }
-    public Command EditCommand { get; }
-    public Command DeleteCommand { get; }
-    public int SelectedIndex { get; set; }
 
     protected ShowTableViewModel(Window owner)
     {
@@ -25,6 +18,14 @@ public abstract class ShowTableViewModel
         EditCommand = new DelegateCommand(_ => ExecuteEdit(), _ => IsItemSelected);
         DeleteCommand = new DelegateCommand(_ => ExecuteDelete(), _ => IsItemSelected);
     }
+
+    private bool IsItemSelected => SelectedIndex != -1;
+    public Command OkCommand { get; }
+    public Command CancelCommand { get; }
+    public Command AddCommand { get; }
+    public Command EditCommand { get; }
+    public Command DeleteCommand { get; }
+    public int SelectedIndex { get; set; }
 
 
     protected abstract void ExecuteEdit();
