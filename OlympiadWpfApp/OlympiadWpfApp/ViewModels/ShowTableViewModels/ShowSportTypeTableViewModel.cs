@@ -10,10 +10,10 @@ using OlympiadWpfApp.Views.ViewRowViews;
 
 namespace OlympiadWpfApp.ViewModels.ShowTableViewModels;
 
-public class ShowSportTypeTableViewModel : ShowTableViewModel
+public sealed class ShowSportTypeTableViewModel : ShowTableViewModel
 {
      private readonly OlympDbContext _olympDbContext;
-    public ObservableCollection<SportTypeEntity> Entities { get; private set; }
+    public ObservableCollection<SportTypeEntity> Entities { get; private set; } = null!;
 
     public ShowSportTypeTableViewModel(Window owner, OlympDbContext olympDbContext) : base(owner)
     {
@@ -70,7 +70,7 @@ public class ShowSportTypeTableViewModel : ShowTableViewModel
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }

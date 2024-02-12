@@ -36,7 +36,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 
-                <DataGridTemplateColumn Header="Название" Width="*">
+                <DataGridTemplateColumn Header="Название" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="entities:OlympiadEntity">
                             <TextBlock Text="{Binding Name}" />
@@ -52,7 +52,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 
-                <DataGridTemplateColumn Header="Страна-хозяйка" Width="*">
+                <DataGridTemplateColumn Header="Страна-хозяйка" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="entities:OlympiadEntity">
                             <TextBlock Text="{Binding HostCountry}" />
@@ -60,7 +60,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 
-                <DataGridTemplateColumn Header="Город" Width="*">
+                <DataGridTemplateColumn Header="Город" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="entities:OlympiadEntity">
                             <TextBlock Text="{Binding City}" />

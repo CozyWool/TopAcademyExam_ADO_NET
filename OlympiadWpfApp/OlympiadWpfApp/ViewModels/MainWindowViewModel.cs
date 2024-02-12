@@ -21,11 +21,11 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private readonly string _allOlympiadsString;
 
     private readonly OlympDbContext _dbContext;
-    private DataView _queryResult;
+    private DataView _queryResult = null!;
 
-    private ObservableCollection<string> _sportTypes;
-    private ObservableCollection<string> _olympiads;
-    private ObservableCollection<string> _countries;
+    private ObservableCollection<string> _sportTypes = null!;
+    private ObservableCollection<string> _olympiads = null!;
+    private ObservableCollection<string> _countries = null!;
 
     public ObservableCollection<string> Countries
     {
@@ -153,7 +153,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
         var query1 = from p in _dbContext.Participants.Where(x => !x.IsDeleted)
                 .Include(x => x.OlympiadParticipant)
-                .ThenInclude(x => x.OlympiadEntity)
+                .ThenInclude(x => x!.OlympiadEntity)
             join sp in _dbContext.SportTypeParticipants on p.Id equals sp.ParticipantId
             where p.OlympiadParticipant.OlympiadEntity.Name == SelectedOlympiad
             select new {p, sp};
@@ -195,7 +195,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
         QueryResult = (from p in _dbContext.Participants.Where(x => !x.IsDeleted)
                     .Include(x => x.OlympiadParticipant)
-                    .ThenInclude(x => x.OlympiadEntity)
+                    .ThenInclude(x => x!.OlympiadEntity)
                 join sp in _dbContext.SportTypeParticipants on p.Id equals sp.ParticipantId
                 where p.OlympiadParticipant.OlympiadEntity.Name == SelectedOlympiad
                 select new
@@ -235,7 +235,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
         var query1 = from p in _dbContext.Participants.Where(x => !x.IsDeleted)
                 .Include(x => x.OlympiadParticipant)
-                .ThenInclude(x => x.OlympiadEntity)
+                .ThenInclude(x => x!.OlympiadEntity)
             join sp in _dbContext.SportTypeParticipants on p.Id equals sp.ParticipantId
             where p.OlympiadParticipant.OlympiadEntity.Name == SelectedOlympiad
             select new {p, sp};
@@ -322,7 +322,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
         var query1 = from p in _dbContext.Participants.Where(x => !x.IsDeleted)
                 .Include(x => x.OlympiadParticipant)
-                .ThenInclude(x => x.OlympiadEntity)
+                .ThenInclude(x => x!.OlympiadEntity)
             join sp in _dbContext.SportTypeParticipants on p.Id equals sp.ParticipantId
             where p.OlympiadParticipant.OlympiadEntity.Name == SelectedOlympiad && p.Country == SelectedCountry
             select new {p, sp};

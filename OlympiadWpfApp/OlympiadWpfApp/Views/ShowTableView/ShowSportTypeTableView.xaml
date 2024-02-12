@@ -8,7 +8,7 @@
         xmlns:showTableViewModels="clr-namespace:OlympiadWpfApp.ViewModels.ShowTableViewModels"
         mc:Ignorable="d"
         Title="Таблица видов спорта" Height="450" Width="600"
-        d:DataContext="{d:DesignInstance showTableViewModels:ShowOlympiadTableViewModel}"
+        d:DataContext="{d:DesignInstance showTableViewModels:ShowSportTypeTableViewModel}"
         WindowStartupLocation="CenterOwner"
         Language="ru-RU">
     <Window.Resources>
@@ -37,7 +37,7 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Название" Width="Auto">
+                <DataGridTemplateColumn Header="Название" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="entities:SportTypeEntity">
                             <TextBlock Text="{Binding Name}" />
