@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using Microsoft.EntityFrameworkCore;
 using OlympiadWpfApp.Commands;
 using OlympiadWpfApp.DataAccess.Entities;
 
@@ -25,7 +24,7 @@ public class ViewOlympiadRowViewModel
         _originalEntity = Entity.Clone() as OlympiadEntity ?? throw new InvalidOperationException();
     }
     
-    public OlympiadEntity Entity { get; set; }
+    public OlympiadEntity Entity { get; }
     public Command OkCommand { get; set; }
     public Command CancelCommand { get; set; }
 

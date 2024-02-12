@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using OlympiadWpfApp.Commands;
 using OlympiadWpfApp.DataAccess.Contexts;
-using OlympiadWpfApp.DataAccess.Entities;
 using OlympiadWpfApp.Extensions;
 using OlympiadWpfApp.Models;
 using OlympiadWpfApp.Views;
@@ -22,21 +21,40 @@ public class MainWindowViewModel : INotifyPropertyChanged
     private readonly OlympDbContext _dbContext;
     private DataView _queryResult;
 
-    public ObservableCollection<string> Countries =>
-        new(_dbContext.Participants.Select(x => x.Country).Distinct().ToList());
+    private ObservableCollection<string> _sportTypes;
+    private ObservableCollection<string> _olympiads;
+    private ObservableCollection<string> _countries;
 
-    public ObservableCollection<string> Olympiads
+    public ObservableCollection<string> Countries
     {
-        get
+        get => _countries;
+        set
         {
-            var result = new ObservableCollection<string>(_dbContext.Olympiads.Select(x => x.Name).Distinct().ToList());
-            result.Add(_allOlympiadsString);
-            return result;
+            _countries = value;
+            OnPropertyChanged();
         }
     }
 
-    public ObservableCollection<string> SportTypes =>
-        new(_dbContext.SportTypes.Select(x => x.Name).Distinct().ToList());
+
+    public ObservableCollection<string> Olympiads
+    {
+        get => _olympiads;
+        set
+        {
+            _olympiads = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public ObservableCollection<string> SportTypes
+    {
+        get => _sportTypes;
+        set
+        {
+            _sportTypes = value;
+            OnPropertyChanged();
+        }
+    }
 
     public string? SelectedCountry { get; set; }
     public string? SelectedOlympiad { get; set; }
@@ -68,6 +86,15 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         _owner = owner;
         _allOlympiadsString = "Все олимпиады"; // TODO: можно через ресурсы сюда локализацию подключить
+        
+        var configuration = BuildConfiguration();
+        _dbContext = new OlympDbContext(configuration);
+
+        SportTypes = new ObservableCollection<string>(_dbContext.SportTypes.Select(x => x.Name).Distinct().ToList());
+        Olympiads = new ObservableCollection<string>(_dbContext.Olympiads.Where(x => !x.IsDeleted)
+            .Select(x => x.Name).Distinct().ToList()) {_allOlympiadsString};
+        Countries = new ObservableCollection<string>(_dbContext.Participants.Select(x => x.Country).Distinct().ToList());
+
         ShowMedalTable = new DelegateCommand(_ => ExecuteShowMedalTable(), _ => NeedSelectedOlympiad());
         ShowMedalists = new DelegateCommand(_ => ExecuteShowMedalists(), _ => NeedSelectedOlympiad());
         ShowMostGoldMedalsCountry =
@@ -83,11 +110,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
         ShowParticipantTable = new DelegateCommand(_ => ExecuteShowParticipantTable());
 
 
-        var configuration = BuildConfiguration();
-        _dbContext = new OlympDbContext(configuration);
     }
 
-    
 
     private bool NeedSelectedCountry()
     {
@@ -246,11 +270,12 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     private void ExecuteShowMostHostCountry()
     {
-        QueryResult = _dbContext.Olympiads.GroupBy(o => o.HostCountry, o => o, (country, count) => new
-            {
-                Country = country,
-                Count = count.Count()
-            })
+        QueryResult = _dbContext.Olympiads.Where(x => !x.IsDeleted).GroupBy(o => o.HostCountry, o => o,
+                (country, count) => new
+                {
+                    Country = country,
+                    Count = count.Count()
+                })
             .OrderByDescending(x => x.Count).Take(1)
             .ToList().ToDataTable().DefaultView;
     }
@@ -313,6 +338,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             .OrderByDescending(x => x.GoldMedals)
             .ToList().ToDataTable().DefaultView;
     }
+
     private void ExecuteShowOlympiadTable()
     {
         var window = new ShowOlympiadTableWindow(_owner);
@@ -327,14 +353,28 @@ public class MainWindowViewModel : INotifyPropertyChanged
             _dbContext.RejectChanges();
         }
     }
+
     private void ExecuteShowSportTypeTable()
     {
-        throw new NotImplementedException();
+        var window = new ShowSportTypeTableWindow(_owner);
+        var viewModel = new ShowSportTypeTableViewModel(window, _dbContext);
+
+        if (window.ShowDialog() == true)
+        {
+            _dbContext.SaveChanges();
+            SportTypes = new ObservableCollection<string>(_dbContext.SportTypes.Select(x => x.Name).Distinct().ToList());
+        }
+        else
+        {
+            _dbContext.RejectChanges();
+        }
     }
+
     private void ExecuteShowParticipantTable()
     {
         throw new NotImplementedException();
     }
+
     private IConfiguration BuildConfiguration()
     {
         return new ConfigurationBuilder()

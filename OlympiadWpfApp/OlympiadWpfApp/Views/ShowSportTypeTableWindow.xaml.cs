@@ -2,9 +2,9 @@
 
 namespace OlympiadWpfApp.Views;
 
-public partial class ShowTableWindow : Window
+public partial class ShowSportTypeTableWindow : Window
 {
-    public ShowTableWindow(Window owner)
+    public ShowSportTypeTableWindow(Window owner)
     {
         Owner = owner;
         InitializeComponent();

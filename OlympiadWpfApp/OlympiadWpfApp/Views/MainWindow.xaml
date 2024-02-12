@@ -46,11 +46,11 @@
             <TextBlock Grid.Row="0" Grid.Column="0" Text="Выберите страну:" />
             <TextBlock Grid.Row="1" Grid.Column="0" Text="Выберите олимпиаду:" />
             <TextBlock Grid.Row="2" Grid.Column="0" Text="Выберите вид спорта:" />
-            <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Countries}"
+            <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Countries, UpdateSourceTrigger=PropertyChanged}"
                       SelectedItem="{Binding SelectedCountry}" />
-            <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Olympiads}"
+            <ComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Olympiads, UpdateSourceTrigger=PropertyChanged}"
                       SelectedItem="{Binding SelectedOlympiad}" />
-            <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding SportTypes}"
+            <ComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding SportTypes, UpdateSourceTrigger=PropertyChanged}"
                       SelectedItem="{Binding  SelectedSportType }" />
         </Grid>
         <WrapPanel Grid.Row="2" HorizontalAlignment="Center" Margin="5">

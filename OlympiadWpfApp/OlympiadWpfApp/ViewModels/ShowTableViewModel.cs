@@ -1,7 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Data;
-using System.Windows;
-using Microsoft.EntityFrameworkCore;
+﻿using System.Windows;
 using OlympiadWpfApp.Commands;
 
 namespace OlympiadWpfApp.ViewModels;
