@@ -10,14 +10,14 @@ public abstract class Command : ICommand
         remove => CommandManager.RequerySuggested -= value;
     }
 
-    public bool CanExecute(object? parameter)
+    public bool CanExecute(object parameter)
     {
         return CanExecuteCmd(parameter ?? throw new ArgumentNullException(nameof(parameter)));
     }
 
-    public void Execute(object? parameter)
+    public void Execute(object parameter)
     {
-        ExecuteCmd(parameter ?? throw new ArgumentNullException(nameof(parameter)));
+        ExecuteCmd(parameter);
     }
 
     protected virtual bool CanExecuteCmd(object parameter)
