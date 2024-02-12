@@ -1,14 +1,14 @@
-﻿<Window x:Class="OlympiadWpfApp.Views.ViewOlympiadRowWindow"
+﻿<Window x:Class="OlympiadWpfApp.Views.ViewRowViews.ViewOlympiadRowView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:viewmodels="clr-namespace:OlympiadWpfApp.ViewModels"
         xmlns:converters="clr-namespace:OlympiadWpfApp.Converters"
+        xmlns:viewRowViewModels="clr-namespace:OlympiadWpfApp.ViewModels.ViewRowViewModels"
 
         mc:Ignorable="d"
         Title="Олимпиада" Height="450" Width="450" SizeToContent="Height"
-        d:DataContext="{d:DesignInstance viewmodels:ViewOlympiadRowViewModel}"
+        d:DataContext="{d:DesignInstance viewRowViewModels:ViewOlympiadRowViewModel}"
         WindowStartupLocation="CenterOwner"
         Language="ru-RU">
     <Window.Resources>

@@ -12,7 +12,7 @@ public partial class App : Application
     {
         base.OnStartup(e);
         
-        var mainWindow = new MainWindow();
+        var mainWindow = new MainView();
         var mainWindowViewModel = new MainWindowViewModel(mainWindow);
         mainWindow.DataContext = mainWindowViewModel;
         mainWindow.Show();

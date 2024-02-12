@@ -1,14 +1,14 @@
-﻿<Window x:Class="OlympiadWpfApp.Views.ShowOlympiadTableWindow"
+﻿<Window x:Class="OlympiadWpfApp.Views.ShowTableView.ShowParticipantTableView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:viewmodels="clr-namespace:OlympiadWpfApp.ViewModels"
         xmlns:entities="clr-namespace:OlympiadWpfApp.DataAccess.Entities;assembly=OlympiadWpfApp.DataAccess"
         xmlns:converters="clr-namespace:OlympiadWpfApp.Converters"
+        xmlns:showTableViewModels="clr-namespace:OlympiadWpfApp.ViewModels.ShowTableViewModels"
         mc:Ignorable="d"
         Title="Таблица олимпиад" Height="450" Width="600"
-        d:DataContext="{d:DesignInstance viewmodels:ShowOlympiadTableViewModel}"
+        d:DataContext="{d:DesignInstance showTableViewModels:ShowParticipantTableViewModel}"
         WindowStartupLocation="CenterOwner"
         Language="ru-RU">
     <Window.Resources>
@@ -25,56 +25,58 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" ItemsSource="{Binding Entities, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedIndex}" Margin="10"
+        <DataGrid Grid.Row="0" ItemsSource="{Binding Entities, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedIndex="{Binding SelectedIndex}" Margin="10"
                   IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTemplateColumn Header="Id" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate DataType="entities:OlympiadEntity">
+                        <DataTemplate DataType="entities:ParticipantEntity">
                             <TextBlock Text="{Binding Id}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
-                <DataGridTemplateColumn Header="Название" Width="*">
+
+                <DataGridTemplateColumn Header="Фамилия" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate DataType="entities:OlympiadEntity">
+                        <DataTemplate DataType="entities:ParticipantEntity">
+                            <TextBlock Text="{Binding Surname}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Имя" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="entities:ParticipantEntity">
                             <TextBlock Text="{Binding Name}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 
-                <DataGridTemplateColumn Header="Дата проведения" Width="Auto">
+                <DataGridTemplateColumn Header="Отчество" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate DataType="entities:OlympiadEntity">
-                            <TextBlock Text="{Binding Year, StringFormat='{}{0:dd.MM.yyyy}'}" />
+                        <DataTemplate DataType="entities:ParticipantEntity">
+                            <TextBlock Text="{Binding Patronymic}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
-                <DataGridTemplateColumn Header="Страна-хозяйка" Width="*">
+
+                <DataGridTemplateColumn Header="Дата рождения" Width="Auto">
                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate DataType="entities:OlympiadEntity">
-                            <TextBlock Text="{Binding HostCountry}" />
+                        <DataTemplate DataType="entities:ParticipantEntity">
+                            <TextBlock Text="{Binding Birthdate, StringFormat='{}{0:dd.MM.yyyy}'}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
-                <DataGridTemplateColumn Header="Город" Width="*">
+
+                <DataGridTemplateColumn Header="Страна" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate DataType="entities:OlympiadEntity">
-                            <TextBlock Text="{Binding City}" />
+                        <DataTemplate DataType="entities:ParticipantEntity">
+                            <TextBlock Text="{Binding Country}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-                
-                <DataGridTemplateColumn Header="Сезон олимпиады" Width="*">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate DataType="entities:OlympiadEntity">
-                            <TextBlock Text="{Binding IsWinter, Converter={StaticResource SeasonConverter}}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <!-- Не разобрался, как работать с фото( -->
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">

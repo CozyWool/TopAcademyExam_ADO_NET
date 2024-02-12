@@ -1,14 +1,14 @@
-﻿<Window x:Class="OlympiadWpfApp.Views.ShowSportTypeTableWindow"
+﻿<Window x:Class="OlympiadWpfApp.Views.ShowTableView.ShowSportTypeTableView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:viewmodels="clr-namespace:OlympiadWpfApp.ViewModels"
         xmlns:entities="clr-namespace:OlympiadWpfApp.DataAccess.Entities;assembly=OlympiadWpfApp.DataAccess"
         xmlns:converters="clr-namespace:OlympiadWpfApp.Converters"
+        xmlns:showTableViewModels="clr-namespace:OlympiadWpfApp.ViewModels.ShowTableViewModels"
         mc:Ignorable="d"
         Title="Таблица видов спорта" Height="450" Width="600"
-        d:DataContext="{d:DesignInstance viewmodels:ShowOlympiadTableViewModel}"
+        d:DataContext="{d:DesignInstance showTableViewModels:ShowOlympiadTableViewModel}"
         WindowStartupLocation="CenterOwner"
         Language="ru-RU">
     <Window.Resources>

@@ -2,7 +2,7 @@
 using OlympiadWpfApp.Commands;
 using OlympiadWpfApp.DataAccess.Entities;
 
-namespace OlympiadWpfApp.ViewModels;
+namespace OlympiadWpfApp.ViewModels.ViewRowViewModels;
 
 public class ViewOlympiadRowViewModel
 {

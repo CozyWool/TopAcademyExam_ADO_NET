@@ -4,9 +4,11 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using OlympiadWpfApp.DataAccess.Contexts;
 using OlympiadWpfApp.DataAccess.Entities;
+using OlympiadWpfApp.ViewModels.ViewRowViewModels;
 using OlympiadWpfApp.Views;
+using OlympiadWpfApp.Views.ViewRowViews;
 
-namespace OlympiadWpfApp.ViewModels;
+namespace OlympiadWpfApp.ViewModels.ShowTableViewModels;
 
 public class ShowParticipantTableViewModel : ShowTableViewModel
 {
@@ -26,7 +28,7 @@ public class ShowParticipantTableViewModel : ShowTableViewModel
             selectedEntity =
                 Entities[index]; // пытался сделать клон сущности(чтобы в случае отмена откатить изменния), но получал ошибку с отслеживанием изменений, выкрутился костылями
 
-        var window = new ViewParticipantRowWindow(Owner);
+        var window = new ViewParticipantRowView(Owner);
         var viewModel = new ViewParticipantRowViewModel(window, selectedEntity);
 
         if (window.ShowDialog() != true)
@@ -52,7 +54,7 @@ public class ShowParticipantTableViewModel : ShowTableViewModel
             Country = "",
         };
 
-        var window = new ViewParticipantRowWindow(Owner);
+        var window = new ViewParticipantRowView(Owner);
         var viewModel = new ViewParticipantRowViewModel(window, participantEntity);
 
         if (window.ShowDialog() != true) return;

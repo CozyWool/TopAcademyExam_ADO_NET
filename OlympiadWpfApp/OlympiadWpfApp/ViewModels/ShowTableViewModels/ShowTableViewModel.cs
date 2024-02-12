@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using OlympiadWpfApp.Commands;
 
-namespace OlympiadWpfApp.ViewModels;
+namespace OlympiadWpfApp.ViewModels.ShowTableViewModels;
 
 public abstract class ShowTableViewModel
 {

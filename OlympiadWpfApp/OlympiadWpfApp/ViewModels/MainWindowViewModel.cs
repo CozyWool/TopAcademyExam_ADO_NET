@@ -9,7 +9,9 @@ using OlympiadWpfApp.Commands;
 using OlympiadWpfApp.DataAccess.Contexts;
 using OlympiadWpfApp.Extensions;
 using OlympiadWpfApp.Models;
+using OlympiadWpfApp.ViewModels.ShowTableViewModels;
 using OlympiadWpfApp.Views;
+using OlympiadWpfApp.Views.ShowTableView;
 
 namespace OlympiadWpfApp.ViewModels;
 
@@ -340,7 +342,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     private void ExecuteShowOlympiadTable()
     {
-        var window = new ShowOlympiadTableWindow(_owner);
+        var window = new ShowOlympiadTableView(_owner);
         var viewModel = new ShowOlympiadTableViewModel(window, _dbContext);
 
         if (window.ShowDialog() == true)
@@ -357,7 +359,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     private void ExecuteShowSportTypeTable()
     {
-        var window = new ShowSportTypeTableWindow(_owner);
+        var window = new ShowSportTypeTableView(_owner);
         var viewModel = new ShowSportTypeTableViewModel(window, _dbContext);
 
         if (window.ShowDialog() == true)
@@ -374,7 +376,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     private void ExecuteShowParticipantTable()
     {
-        var window = new ShowParticipantTableWindow(_owner);
+        var window = new ShowParticipantTableView(_owner);
         var viewModel = new ShowParticipantTableViewModel(window, _dbContext);
 
         if (window.ShowDialog() == true)

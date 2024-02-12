@@ -4,16 +4,18 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using OlympiadWpfApp.DataAccess.Contexts;
 using OlympiadWpfApp.DataAccess.Entities;
+using OlympiadWpfApp.ViewModels.ViewRowViewModels;
 using OlympiadWpfApp.Views;
+using OlympiadWpfApp.Views.ViewRowViews;
 
-namespace OlympiadWpfApp.ViewModels;
+namespace OlympiadWpfApp.ViewModels.ShowTableViewModels;
 
-public class ShowSportTypeTableViewModel : ShowTableViewModel
+public class ShowOlympiadTableViewModel : ShowTableViewModel, INotifyPropertyChanged
 {
-     private readonly OlympDbContext _olympDbContext;
-    public ObservableCollection<SportTypeEntity> Entities { get; private set; }
+    private readonly OlympDbContext _olympDbContext;
+    public ObservableCollection<OlympiadEntity> Entities { get; private set; }
 
-    public ShowSportTypeTableViewModel(Window owner, OlympDbContext olympDbContext) : base(owner)
+    public ShowOlympiadTableViewModel(Window owner, OlympDbContext olympDbContext) : base(owner)
     {
         _olympDbContext = olympDbContext;
         GetData();
@@ -24,8 +26,8 @@ public class ShowSportTypeTableViewModel : ShowTableViewModel
         var index = SelectedIndex;
         var selectedEntity = Entities[index]; // пытался сделать клон сущности(чтобы в случае отмена откатить изменния), но получал ошибку с отслеживанием изменений, выкрутился костылями
 
-        var window = new ViewSportTypeRowWindow(Owner);
-        var viewModel = new ViewSportTypeRowViewModel(window, selectedEntity);
+        var window = new ViewOlympiadRowView(Owner);
+        var viewModel = new ViewOlympiadRowViewModel(window, selectedEntity);
 
         if (window.ShowDialog() != true)
         {
@@ -33,35 +35,41 @@ public class ShowSportTypeTableViewModel : ShowTableViewModel
             return;
         }
 
-        _olympDbContext.SportTypes.Update(selectedEntity);
+        _olympDbContext.Olympiads.Update(selectedEntity);
     }
 
     protected override void ExecuteAdd()
     {
-        var sportTypeEntity = new SportTypeEntity()
+        var window = new ViewOlympiadRowView(Owner);
+        var olympiadEntity = new OlympiadEntity
         {
-            Id = _olympDbContext.SportTypes.Any() ? _olympDbContext.SportTypes.OrderBy(x => x.Id).Last().Id + 1 : 1,
+            Id = _olympDbContext.Olympiads.Any() ? _olympDbContext.Olympiads.OrderBy(x => x.Id).Last().Id + 1 : 1,
             Name = "",
+            Year = DateOnly.Parse("01.01.1900"),
+            HostCountry = "",
+            City = "",
+            IsWinter = false,
+            IsDeleted = false,
         };
 
-        var window = new ViewSportTypeRowWindow(Owner);
-        var viewModel = new ViewSportTypeRowViewModel(window, sportTypeEntity);
+        var viewModel = new ViewOlympiadRowViewModel(window, olympiadEntity);
 
         if (window.ShowDialog() != true) return;
 
-        _olympDbContext.SportTypes.Add(viewModel.Entity);
+        _olympDbContext.Olympiads.Add(viewModel.Entity);
         Entities.Add(viewModel.Entity);
     }
 
     protected override void ExecuteDelete()
     {
-        _olympDbContext.SportTypes.Remove(Entities[SelectedIndex]);
+        Entities[SelectedIndex].IsDeleted = true; // Надеюсь правильно понял soft-delete механизм
         Entities.Remove(Entities[SelectedIndex]);
     }
 
     protected override void GetData()
     {
-        Entities = new ObservableCollection<SportTypeEntity>(_olympDbContext.SportTypes
+        Entities = new ObservableCollection<OlympiadEntity>(_olympDbContext.Olympiads
+            .Where(x => !x.IsDeleted)
             .OrderBy(x => x.Id)
             .ToList());
     }
