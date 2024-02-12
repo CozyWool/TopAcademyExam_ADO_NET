@@ -65,11 +65,12 @@
                     Command="{Binding ShowMostGoldMedalsParticipant}" />
             <Button Content="Посмотреть страну хозяйку с наиб. кол-вом олимпиад"
                     Command="{Binding ShowMostHostCountry}" />
-            <Button Content="Состав олимпиадной команды" Command="{Binding ShowCountryTeam}" />
-            <Button Content="Статистика выступления страны" Command="{Binding ShowCountryStats}" />
-            <Button Content="Посмотреть все олимпиады" Command="{Binding ShowOlympiadTable}" />
-            <Button Content="Посмотреть все виды спорта" Command="{Binding ShowSportTypeTable}" />
-            <Button Content="Посмотреть всех спортсменов" Command="{Binding ShowParticipantTable}" />
+            <Button Content="Состав олимпиадной команды" Command="{Binding ShowCountryTeamCommand}" />
+            <Button Content="Статистика выступления страны" Command="{Binding ShowCountryStatsCommand}" />
+            <Button Content="Посмотреть все олимпиады" Command="{Binding ShowOlympiadTableCommand}" />
+            <Button Content="Посмотреть все виды спорта" Command="{Binding ShowSportTypeTableCommand}" />
+            <Button Content="Посмотреть всех спортсменов" Command="{Binding ShowParticipantTableCommand}" />
+            <Button Content="Связать таблицы" Command="{Binding ConnectTablesCommand}" />
         </WrapPanel>
         <DataGrid Grid.Row="3" Margin="10" ItemsSource="{Binding QueryResult}" IsReadOnly="True" />
     </Grid>

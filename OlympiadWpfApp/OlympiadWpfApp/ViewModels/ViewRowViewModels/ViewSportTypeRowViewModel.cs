@@ -9,7 +9,7 @@ public class ViewSportTypeRowViewModel
     private readonly SportTypeEntity _originalEntity; // на случай, если нужно откатить изменения(нажата кнопка Отмена)
     private readonly Window _owner;
 
-    //private bool CanExecuteOk => Entity.Name.Length > 0; // т.к всего одно поле, то оно тут не работает
+    //private bool CanExecuteOk => Entity.Name.Length > 0; // т.к всего одно поле, то оно тут не работает (фокус только на TextBox с именем)
 
     public ViewSportTypeRowViewModel(Window owner, SportTypeEntity entityToEdit)
     {
@@ -27,7 +27,7 @@ public class ViewSportTypeRowViewModel
 
     private void ExecuteOk()
     {
-        if (Entity.Name.Length <= 0)
+        if (Entity.Name.Length <= 0) // Костыль(
         {
             MessageBox.Show("Введите все данные!", "Внимание!", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;

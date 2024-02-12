@@ -10,6 +10,7 @@ using OlympiadWpfApp.DataAccess.Contexts;
 using OlympiadWpfApp.Extensions;
 using OlympiadWpfApp.Models;
 using OlympiadWpfApp.ViewModels.ShowTableViewModels;
+using OlympiadWpfApp.Views;
 using OlympiadWpfApp.Views.ShowTableView;
 
 namespace OlympiadWpfApp.ViewModels;
@@ -49,12 +50,13 @@ public class MainWindowViewModel : INotifyPropertyChanged
         ShowMostHostCountry = new DelegateCommand(_ => ExecuteShowMostHostCountry());
         ShowMostGoldMedalsParticipant =
             new DelegateCommand(_ => ExecuteShowMostGoldMedalsParticipant(), _ => NeedSelectedSportType());
-        ShowCountryTeam = new DelegateCommand(_ => ExecuteShowCountryTeam(), _ => NeedSelectedCountry());
-        ShowCountryStats = new DelegateCommand(_ => ExecuteShowCountryStats(),
+        ShowCountryTeamCommand = new DelegateCommand(_ => ExecuteShowCountryTeam(), _ => NeedSelectedCountry());
+        ShowCountryStatsCommand = new DelegateCommand(_ => ExecuteShowCountryStats(),
             _ => NeedSelectedCountry() && NeedSelectedOlympiad());
-        ShowOlympiadTable = new DelegateCommand(_ => ExecuteShowOlympiadTable());
-        ShowSportTypeTable = new DelegateCommand(_ => ExecuteShowSportTypeTable());
-        ShowParticipantTable = new DelegateCommand(_ => ExecuteShowParticipantTable());
+        ShowOlympiadTableCommand = new DelegateCommand(_ => ExecuteShowOlympiadTable());
+        ShowSportTypeTableCommand = new DelegateCommand(_ => ExecuteShowSportTypeTable());
+        ShowParticipantTableCommand = new DelegateCommand(_ => ExecuteShowParticipantTable());
+        ConnectTablesCommand = new DelegateCommand(_ => ExecuteConnectTables());
     }
 
     public ObservableCollection<string> Countries
@@ -107,11 +109,12 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public Command ShowMostGoldMedalsCountry { get; }
     public Command ShowMostGoldMedalsParticipant { get; }
     public Command ShowMostHostCountry { get; }
-    public Command ShowCountryTeam { get; }
-    public Command ShowCountryStats { get; }
-    public Command ShowOlympiadTable { get; }
-    public Command ShowSportTypeTable { get; }
-    public Command ShowParticipantTable { get; }
+    public Command ShowCountryTeamCommand { get; }
+    public Command ShowCountryStatsCommand { get; }
+    public Command ShowOlympiadTableCommand { get; }
+    public Command ShowSportTypeTableCommand { get; }
+    public Command ShowParticipantTableCommand { get; }
+    public Command ConnectTablesCommand { get; }
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -388,6 +391,21 @@ public class MainWindowViewModel : INotifyPropertyChanged
             Countries = new ObservableCollection<string>(_dbContext.Participants.Where(x => !x.IsDeleted)
                 .Select(x => x.Country).Distinct()
                 .ToList());
+        }
+        else
+        {
+            _dbContext.RejectChanges();
+        }
+    }
+    
+    private void ExecuteConnectTables()
+    {
+        var window = new ConnectTablesView(_owner);
+        var viewModel = new ConnectTablesViewModel(window, _dbContext);
+
+        if (window.ShowDialog() == true)
+        {
+            _dbContext.SaveChanges();
         }
         else
         {
