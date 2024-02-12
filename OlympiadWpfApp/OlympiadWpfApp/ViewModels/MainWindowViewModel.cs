@@ -86,14 +86,15 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         _owner = owner;
         _allOlympiadsString = "Все олимпиады"; // TODO: можно через ресурсы сюда локализацию подключить
-        
+
         var configuration = BuildConfiguration();
         _dbContext = new OlympDbContext(configuration);
 
         SportTypes = new ObservableCollection<string>(_dbContext.SportTypes.Select(x => x.Name).Distinct().ToList());
         Olympiads = new ObservableCollection<string>(_dbContext.Olympiads.Where(x => !x.IsDeleted)
             .Select(x => x.Name).Distinct().ToList()) {_allOlympiadsString};
-        Countries = new ObservableCollection<string>(_dbContext.Participants.Select(x => x.Country).Distinct().ToList());
+        Countries = new ObservableCollection<string>(_dbContext.Participants.Where(x => !x.IsDeleted).Select(x => x.Country).Distinct()
+            .ToList());
 
         ShowMedalTable = new DelegateCommand(_ => ExecuteShowMedalTable(), _ => NeedSelectedOlympiad());
         ShowMedalists = new DelegateCommand(_ => ExecuteShowMedalists(), _ => NeedSelectedOlympiad());
@@ -108,8 +109,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
         ShowOlympiadTable = new DelegateCommand(_ => ExecuteShowOlympiadTable());
         ShowSportTypeTable = new DelegateCommand(_ => ExecuteShowSportTypeTable());
         ShowParticipantTable = new DelegateCommand(_ => ExecuteShowParticipantTable());
-
-
     }
 
 
@@ -132,7 +131,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         if (SelectedOlympiad == _allOlympiadsString)
         {
-            var query = from p in _dbContext.Participants
+            var query = from p in _dbContext.Participants.Where(x => !x.IsDeleted)
                 join sp in _dbContext.SportTypeParticipants on p.Id equals sp.ParticipantId
                 select new {p, sp};
             QueryResult = (from q in query
@@ -150,7 +149,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             return;
         }
 
-        var query1 = from p in _dbContext.Participants
+        var query1 = from p in _dbContext.Participants.Where(x => !x.IsDeleted)
                 .Include(x => x.OlympiadParticipant)
                 .ThenInclude(x => x.OlympiadEntity)
             join sp in _dbContext.SportTypeParticipants on p.Id equals sp.ParticipantId
@@ -174,7 +173,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         if (SelectedOlympiad == _allOlympiadsString)
         {
-            QueryResult = (from p in _dbContext.Participants
+            QueryResult = (from p in _dbContext.Participants.Where(x => !x.IsDeleted)
                     join sp in _dbContext.SportTypeParticipants on p.Id equals sp.ParticipantId
                     select new
                     {
@@ -192,7 +191,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             return;
         }
 
-        QueryResult = (from p in _dbContext.Participants
+        QueryResult = (from p in _dbContext.Participants.Where(x => !x.IsDeleted)
                     .Include(x => x.OlympiadParticipant)
                     .ThenInclude(x => x.OlympiadEntity)
                 join sp in _dbContext.SportTypeParticipants on p.Id equals sp.ParticipantId
@@ -216,7 +215,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         if (SelectedOlympiad == _allOlympiadsString)
         {
-            var query = from p in _dbContext.Participants
+            var query = from p in _dbContext.Participants.Where(x => !x.IsDeleted)
                 join sp in _dbContext.SportTypeParticipants on p.Id equals sp.ParticipantId
                 select new {p, sp};
             QueryResult = (from q in query
@@ -232,7 +231,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             return;
         }
 
-        var query1 = from p in _dbContext.Participants
+        var query1 = from p in _dbContext.Participants.Where(x => !x.IsDeleted)
                 .Include(x => x.OlympiadParticipant)
                 .ThenInclude(x => x.OlympiadEntity)
             join sp in _dbContext.SportTypeParticipants on p.Id equals sp.ParticipantId
@@ -252,7 +251,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     private void ExecuteShowMostGoldMedalsParticipant()
     {
-        QueryResult = _dbContext.Participants.Join(_dbContext.SportTypeParticipants, p => p.Id, sp => sp.ParticipantId,
+        QueryResult = _dbContext.Participants.Where(x => !x.IsDeleted).Join(_dbContext.SportTypeParticipants, p => p.Id, sp => sp.ParticipantId,
                 (p, sp) => new
                 {
                     p.Country,
@@ -282,7 +281,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     private void ExecuteShowCountryTeam()
     {
-        QueryResult = _dbContext.Participants
+        QueryResult = _dbContext.Participants.Where(x => !x.IsDeleted)
             .Where(x => x.Country == SelectedCountry).Distinct()
             .Select(x => new
             {
@@ -300,7 +299,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
     {
         if (SelectedOlympiad == _allOlympiadsString)
         {
-            var query = from p in _dbContext.Participants
+            var query = from p in _dbContext.Participants.Where(x => !x.IsDeleted)
                 join sp in _dbContext.SportTypeParticipants on p.Id equals sp.ParticipantId
                 where p.Country == SelectedCountry
                 select new {p, sp};
@@ -319,7 +318,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             return;
         }
 
-        var query1 = from p in _dbContext.Participants
+        var query1 = from p in _dbContext.Participants.Where(x => !x.IsDeleted)
                 .Include(x => x.OlympiadParticipant)
                 .ThenInclude(x => x.OlympiadEntity)
             join sp in _dbContext.SportTypeParticipants on p.Id equals sp.ParticipantId
@@ -346,6 +345,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
         if (window.ShowDialog() == true)
         {
+            Olympiads = new ObservableCollection<string>(_dbContext.Olympiads.Where(x => !x.IsDeleted)
+                .Select(x => x.Name).Distinct().ToList()) {_allOlympiadsString};
             _dbContext.SaveChanges();
         }
         else
@@ -362,7 +363,8 @@ public class MainWindowViewModel : INotifyPropertyChanged
         if (window.ShowDialog() == true)
         {
             _dbContext.SaveChanges();
-            SportTypes = new ObservableCollection<string>(_dbContext.SportTypes.Select(x => x.Name).Distinct().ToList());
+            SportTypes =
+                new ObservableCollection<string>(_dbContext.SportTypes.Select(x => x.Name).Distinct().ToList());
         }
         else
         {
@@ -372,7 +374,19 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     private void ExecuteShowParticipantTable()
     {
-        throw new NotImplementedException();
+        var window = new ShowParticipantTableWindow(_owner);
+        var viewModel = new ShowParticipantTableViewModel(window, _dbContext);
+
+        if (window.ShowDialog() == true)
+        {
+            _dbContext.SaveChanges();
+            Countries = new ObservableCollection<string>(_dbContext.Participants.Where(x => !x.IsDeleted).Select(x => x.Country).Distinct()
+                .ToList());
+        }
+        else
+        {
+            _dbContext.RejectChanges();
+        }
     }
 
     private IConfiguration BuildConfiguration()

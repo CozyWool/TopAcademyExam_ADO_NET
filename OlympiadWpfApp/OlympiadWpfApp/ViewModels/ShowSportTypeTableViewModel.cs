@@ -38,14 +38,14 @@ public class ShowSportTypeTableViewModel : ShowTableViewModel
 
     protected override void ExecuteAdd()
     {
-        var olympiadEntity = new SportTypeEntity()
+        var sportTypeEntity = new SportTypeEntity()
         {
             Id = _olympDbContext.SportTypes.Any() ? _olympDbContext.SportTypes.OrderBy(x => x.Id).Last().Id + 1 : 1,
             Name = "",
         };
 
         var window = new ViewSportTypeRowWindow(Owner);
-        var viewModel = new ViewSportTypeRowViewModel(window, olympiadEntity);
+        var viewModel = new ViewSportTypeRowViewModel(window, sportTypeEntity);
 
         if (window.ShowDialog() != true) return;
 
