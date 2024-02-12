@@ -12,7 +12,7 @@ public abstract class Command : ICommand
 
     public bool CanExecute(object parameter)
     {
-        return CanExecuteCmd(parameter ?? throw new ArgumentNullException(nameof(parameter)));
+        return CanExecuteCmd(parameter);
     }
 
     public void Execute(object parameter)
