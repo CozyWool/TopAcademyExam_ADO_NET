@@ -1,0 +1,90 @@
+﻿<Window x:Class="OlympiadWpfApp.Views.ShowOlympiadTableWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:viewmodels="clr-namespace:OlympiadWpfApp.ViewModels"
+        xmlns:entities="clr-namespace:OlympiadWpfApp.DataAccess.Entities;assembly=OlympiadWpfApp.DataAccess"
+        xmlns:converters="clr-namespace:OlympiadWpfApp.Converters"
+        mc:Ignorable="d"
+        Title="Таблица олимпиад" Height="450" Width="600"
+        d:DataContext="{d:DesignInstance viewmodels:ShowOlympiadTableViewModel}"
+        WindowStartupLocation="CenterOwner"
+        Language="ru-RU">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Width" Value="100" />
+            <Setter Property="Height" Value="25" />
+            <Setter Property="Margin" Value="2.5" />
+        </Style>
+        <converters:SeasonConverter x:Key="SeasonConverter" />
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Row="0" ItemsSource="{Binding Entities, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding SelectedIndex}" Margin="10"
+                  IsReadOnly="True" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Id" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="entities:OlympiadEntity">
+                            <TextBlock Text="{Binding Id}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Название" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="entities:OlympiadEntity">
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Дата проведения" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="entities:OlympiadEntity">
+                            <TextBlock Text="{Binding Year, StringFormat='{}{0:dd.MM.yyyy}'}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Страна-хозяйка" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="entities:OlympiadEntity">
+                            <TextBlock Text="{Binding HostCountry}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Город" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="entities:OlympiadEntity">
+                            <TextBlock Text="{Binding City}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                
+                <DataGridTemplateColumn Header="Сезон олимпиады" Width="Auto">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="entities:OlympiadEntity">
+                            <TextBlock Text="{Binding IsWinter, Converter={StaticResource SeasonConverter}}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Добавить" Command="{Binding AddCommand}" />
+            <Button Content="Изменить" Command="{Binding EditCommand}" />
+            <Button Content="Удалить" Command="{Binding DeleteCommand}" />
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="ОК" Command="{Binding OkCommand}" />
+            <Button Content="Отмена" Command="{Binding CancelCommand}" />
+        </StackPanel>
+    </Grid>
+</Window>

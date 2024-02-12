@@ -10,6 +10,7 @@ using OlympiadWpfApp.DataAccess.Contexts;
 using OlympiadWpfApp.DataAccess.Entities;
 using OlympiadWpfApp.Extensions;
 using OlympiadWpfApp.Models;
+using OlympiadWpfApp.Views;
 
 namespace OlympiadWpfApp.ViewModels;
 
@@ -33,6 +34,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             return result;
         }
     }
+
     public ObservableCollection<string> SportTypes =>
         new(_dbContext.SportTypes.Select(x => x.Name).Distinct().ToList());
 
@@ -57,6 +59,9 @@ public class MainWindowViewModel : INotifyPropertyChanged
     public Command ShowMostHostCountry { get; }
     public Command ShowCountryTeam { get; }
     public Command ShowCountryStats { get; }
+    public Command ShowOlympiadTable { get; }
+    public Command ShowSportTypeTable { get; }
+    public Command ShowParticipantTable { get; }
 
 
     public MainWindowViewModel(Window owner)
@@ -68,14 +73,22 @@ public class MainWindowViewModel : INotifyPropertyChanged
         ShowMostGoldMedalsCountry =
             new DelegateCommand(_ => ExecuteShowMostGoldMedalsCountry(), _ => NeedSelectedOlympiad());
         ShowMostHostCountry = new DelegateCommand(_ => ExecuteShowMostHostCountry());
-        ShowMostGoldMedalsParticipant = new DelegateCommand(_ => ExecuteShowMostGoldMedalsParticipant(), _ => NeedSelectedSportType());
-        ShowCountryTeam  = new DelegateCommand(_ => ExecuteShowCountryTeam(), _ => NeedSelectedCountry());
-        ShowCountryStats = new DelegateCommand(_ => ExecuteShowCountryStats(), _ => NeedSelectedCountry() && NeedSelectedOlympiad());
+        ShowMostGoldMedalsParticipant =
+            new DelegateCommand(_ => ExecuteShowMostGoldMedalsParticipant(), _ => NeedSelectedSportType());
+        ShowCountryTeam = new DelegateCommand(_ => ExecuteShowCountryTeam(), _ => NeedSelectedCountry());
+        ShowCountryStats = new DelegateCommand(_ => ExecuteShowCountryStats(),
+            _ => NeedSelectedCountry() && NeedSelectedOlympiad());
+        ShowOlympiadTable = new DelegateCommand(_ => ExecuteShowOlympiadTable());
+        ShowSportTypeTable = new DelegateCommand(_ => ExecuteShowSportTypeTable());
+        ShowParticipantTable = new DelegateCommand(_ => ExecuteShowParticipantTable());
 
 
         var configuration = BuildConfiguration();
         _dbContext = new OlympDbContext(configuration);
     }
+
+    
+
     private bool NeedSelectedCountry()
     {
         return SelectedCountry != null;
@@ -257,6 +270,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
             })
             .ToList().ToDataTable().DefaultView;
     }
+
     private void ExecuteShowCountryStats()
     {
         if (SelectedOlympiad == _allOlympiadsString)
@@ -299,7 +313,28 @@ public class MainWindowViewModel : INotifyPropertyChanged
             .OrderByDescending(x => x.GoldMedals)
             .ToList().ToDataTable().DefaultView;
     }
-    
+    private void ExecuteShowOlympiadTable()
+    {
+        var window = new ShowOlympiadTableWindow(_owner);
+        var viewModel = new ShowOlympiadTableViewModel(window, _dbContext);
+
+        if (window.ShowDialog() == true)
+        {
+            _dbContext.SaveChanges();
+        }
+        else
+        {
+            _dbContext.RejectChanges();
+        }
+    }
+    private void ExecuteShowSportTypeTable()
+    {
+        throw new NotImplementedException();
+    }
+    private void ExecuteShowParticipantTable()
+    {
+        throw new NotImplementedException();
+    }
     private IConfiguration BuildConfiguration()
     {
         return new ConfigurationBuilder()

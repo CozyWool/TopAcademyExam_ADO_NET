@@ -64,6 +64,9 @@
                     Command="{Binding ShowMostHostCountry}" />
             <Button Content="Состав олимпиадной команды" Command="{Binding ShowCountryTeam}" />
             <Button Content="Статистика выступления страны" Command="{Binding ShowCountryStats}" />
+            <Button Content="Посмотреть все олимпиады" Command="{Binding ShowOlympiadTable}" />
+            <Button Content="Посмотреть все виды спорта" Command="{Binding ShowSportTypeTable}" />
+            <Button Content="Посмотреть всех спортсменов" Command="{Binding ShowParticipantTable}" />
         </WrapPanel>
         <DataGrid Grid.Row="3" Margin="10" ItemsSource="{Binding QueryResult}" IsReadOnly="True" />
     </Grid>
